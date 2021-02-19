@@ -14275,7 +14275,7 @@ eval("/*\n\nCopyright (c) 2012-2014 Jeffrey Mealo\n\nPermission is hereby grante
   \**********************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const faker = __webpack_require__(/*! faker */ \"./node_modules/faker/index.js\");\nconst render = __webpack_require__(/*! ./render.js */ \"./src/render.js\");\n\nconst usersList = document.querySelector('#user-list');\n\nconst users = new Array(20).fill('').map((_) => {\n  return faker.helpers.userCard();\n});\n\nrender({ users, usersList });\n\nmodule.exports = users;\n\n\n//# sourceURL=webpack://acme_user_directory/./src/index.js?");
+eval("const faker = __webpack_require__(/*! faker */ \"./node_modules/faker/index.js\");\nconst render = __webpack_require__(/*! ./render.js */ \"./src/render.js\");\n\nconst usersList = document.querySelector('#user-list');\nlet curr = 0;\n\nconst _render = () => {\n  render({ users, usersList, curr });\n};\nconst users = new Array(20).fill('').map((_) => {\n  return faker.helpers.userCard();\n});\n\n_render();\n\nwindow.addEventListener('hashchange', () => {\n  curr = window.location.hash.slice(1) * 1;\n  _render();\n});\n\nmodule.exports = users;\n\n\n//# sourceURL=webpack://acme_user_directory/./src/index.js?");
 
 /***/ }),
 
@@ -14285,7 +14285,7 @@ eval("const faker = __webpack_require__(/*! faker */ \"./node_modules/faker/inde
   \***********************/
 /***/ ((module) => {
 
-eval("const render = ({ users, usersList }) => {\n  const html = `\n        ${users\n          .map((user, idx) => {\n            return `\n                <li><a href='${idx}'>${user.name}</a></li>\n            `;\n          })\n          .join('')}\n        `;\n  usersList.innerHTML = html;\n};\n\nmodule.exports = render;\n\n\n//# sourceURL=webpack://acme_user_directory/./src/render.js?");
+eval("const render = ({ users, usersList, curr }) => {\n  const html = `\n        ${users\n          .map((user, idx) => {\n            return `\n                <li><a href='#${idx + 1}'>${user.name}</a>\n                    <ul>\n                    ${curr === idx + 1 ? `${user.email}` : ``}\n                    </ul>\n                </li>\n            `;\n          })\n          .join('')}\n        `;\n  console.log(users);\n  usersList.innerHTML = html;\n};\n\nmodule.exports = render;\n\n\n//# sourceURL=webpack://acme_user_directory/./src/render.js?");
 
 /***/ })
 
